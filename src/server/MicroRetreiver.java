@@ -1,0 +1,63 @@
+package server;
+
+import java.io.ByteArrayOutputStream;
+
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.DataLine;
+import javax.sound.sampled.TargetDataLine;
+
+import server.fifo.FifoMicro;
+import tools.Model;
+
+public class MicroRetreiver extends Thread{
+
+	public MicroRetreiver() {
+		// il faut faire un singleton...!
+	}
+	
+	public void run(){
+        
+        TargetDataLine microphone;
+//        AudioInputStream audioInputStream;
+//        SourceDataLine sourceDataLine;
+        try {
+            microphone = AudioSystem.getTargetDataLine(Model.audioFormat);
+
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, Model.audioFormat);
+            microphone = (TargetDataLine) AudioSystem.getLine(info);
+            microphone.open(Model.audioFormat);
+
+            microphone.start();
+
+            System.out.println("Début de la diffusion");
+            try {
+                while (Model.isClientConnected()) { 
+                	int totalByteRead = 0;
+                    //byte[] data = new byte[microphone.getBufferSize() / 5];
+                	byte[] data = new byte[Model.CHUNK_SIZE];
+                	ByteArrayOutputStream out = new ByteArrayOutputStream();
+                	
+                	//long t0 = new Date().getTime();
+                	while( totalByteRead < Model.BUFF_SIZE ){ 
+	                    int numBytesRead = microphone.read(data, 0, Model.CHUNK_SIZE);
+	                    totalByteRead += numBytesRead;
+	                    out.write(data, 0, numBytesRead);
+                	}
+                	//long t1 = new Date().getTime();
+                	System.out.print(".");
+                    FifoMicro.add(out);
+                 
+                    //System.out.println("delay : "+(t1-t0));
+                }
+                System.out.println("\narret de la diffusion");
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            microphone.close();
+            
+        }catch( Exception e ){
+        	e.printStackTrace();
+        }
+	}
+
+}
