@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.Socket;
 import java.net.UnknownHostException;
 
-import tools.Model;
+import tools.MicrophoneModel;
 
 public class SocketClient {
 	Socket socket;
@@ -15,7 +15,7 @@ public class SocketClient {
 	public void start(){
 
 		try {
-			socket = new Socket( Model.IP , Model.PORT );
+			socket = new Socket( MicrophoneModel.IP , MicrophoneModel.PORT );
 		
 			System.out.println("Connexion établie avec le serveur, "); // Si le message s'affiche c'est que je suis connecté
 		

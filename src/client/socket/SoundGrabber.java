@@ -7,7 +7,7 @@ import java.net.Socket;
 
 import javax.sound.sampled.AudioInputStream;
 
-import tools.Model;
+import tools.MicrophoneModel;
 import client.fifo.FifoAudioInput;
 
 public class SoundGrabber extends Thread{
@@ -29,7 +29,7 @@ public class SoundGrabber extends Thread{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
-    	byte [] buf = new byte[ Model.BUFF_SIZE ];
+    	byte [] buf = new byte[ MicrophoneModel.BUFF_SIZE ];
         while( true ){
 	        try {
 
@@ -40,7 +40,7 @@ public class SoundGrabber extends Thread{
 			    
 				//buf = CompressionUtils.decompress(buf);
 				
-		        AudioInputStream audioInputStream = new AudioInputStream(new ByteArrayInputStream(buf),Model.audioFormat, buf.length / Model.audioFormat.getFrameSize());
+		        AudioInputStream audioInputStream = new AudioInputStream(new ByteArrayInputStream(buf),MicrophoneModel.audioFormat, buf.length / MicrophoneModel.audioFormat.getFrameSize());
 		        
 		        FifoAudioInput.add(audioInputStream);
 		       // System.out.print(",");

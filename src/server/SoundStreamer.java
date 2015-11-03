@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.net.ServerSocket;
 
 import server.socket.AccepterConnexions;
-import tools.Model;
+import tools.MicrophoneModel;
 
 public class SoundStreamer {
 
@@ -17,7 +17,7 @@ public class SoundStreamer {
 		// TODO Auto-generated method stub
 		ServerSocket srvSocketCommandes;
 		try {
-			srvSocketCommandes = new ServerSocket( Model.PORT );
+			srvSocketCommandes = new ServerSocket( MicrophoneModel.PORT );
 			
 			Thread thread = new Thread(new AccepterConnexions( srvSocketCommandes ));
 			thread.start();
