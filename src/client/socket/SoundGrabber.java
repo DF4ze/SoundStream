@@ -29,24 +29,26 @@ public class SoundGrabber extends Thread{
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}	
+    	byte [] buf = new byte[ Model.BUFF_SIZE ];
         while( true ){
 	        try {
 
-	        	byte [] buf = new byte[ Model.BUFF_SIZE ];
 	        	//long t0 = new Date().getTime();
 				inObject.readFully(buf);
 	        	//long t1 = new Date().getTime();
 				//System.out.println("delay : "+(t1-t0));
-			       
+			    
+				//buf = CompressionUtils.decompress(buf);
 				
 		        AudioInputStream audioInputStream = new AudioInputStream(new ByteArrayInputStream(buf),Model.audioFormat, buf.length / Model.audioFormat.getFrameSize());
 		        
 		        FifoAudioInput.add(audioInputStream);
-		        System.out.print(",");
+		       // System.out.print(",");
 		        //baos.close();
 				
 	        }catch( Exception e ){
 	        	e.printStackTrace();
+	        	System.exit(0);
 	        	break;
 	        }
 		}

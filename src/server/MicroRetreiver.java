@@ -29,7 +29,7 @@ public class MicroRetreiver extends Thread{
 
             microphone.start();
 
-            System.out.println("Début de la diffusion");
+            System.out.println("Debut de la diffusion");
             try {
                 while (Model.isClientConnected()) { 
                 	int totalByteRead = 0;
@@ -44,7 +44,7 @@ public class MicroRetreiver extends Thread{
 	                    out.write(data, 0, numBytesRead);
                 	}
                 	//long t1 = new Date().getTime();
-                	System.out.print(".");
+                	//System.out.print(".");
                     FifoMicro.add(out);
                  
                     //System.out.println("delay : "+(t1-t0));

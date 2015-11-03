@@ -34,7 +34,8 @@ public class AudioSender extends Thread{
 					ByteArrayOutputStream baos = FifoMicro.pop();
 
 					objectOut.write(baos.toByteArray());
-					System.out.print(",");
+					//objectOut.write(CompressionUtils.compress(baos.toByteArray()));
+					//System.out.print(",");
 				}
 				
 			}
