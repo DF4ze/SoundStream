@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.ObjectOutputStream;
 
 import server.fifo.FifoMicro;
-import tools.Model;
+import tools.MicrophoneModel;
 
 public class AudioSender extends Thread{
 
@@ -41,10 +41,10 @@ public class AudioSender extends Thread{
 			}
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
-			e.printStackTrace();
+			//e.printStackTrace();
 		}
-		
-		Model.setClientConnected(false);
+		System.out.println("Client deconnecte microphone");
+		MicrophoneModel.setClientConnected(false);
 	}
 
 }

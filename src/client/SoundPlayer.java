@@ -7,7 +7,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 
-import tools.Model;
+import tools.MicrophoneModel;
 import client.fifo.FifoAudioInput;
 
 public class SoundPlayer extends Thread{
@@ -18,15 +18,15 @@ public class SoundPlayer extends Thread{
 
 	public void run(){
 		try {
-			SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(new DataLine.Info(SourceDataLine.class, Model.audioFormat));
+			SourceDataLine sourceDataLine = (SourceDataLine) AudioSystem.getLine(new DataLine.Info(SourceDataLine.class, MicrophoneModel.audioFormat));
 
-	        sourceDataLine.open(Model.audioFormat);
+	        sourceDataLine.open(MicrophoneModel.audioFormat);
 	        sourceDataLine.start();
 	        
 	        System.out.print("Buffering");
 	        synchronized (FifoAudioInput.getList()) {
 	        	
-				while( FifoAudioInput.getList().size() < Model.MIN_BUFFERED ){
+				while( FifoAudioInput.getList().size() < MicrophoneModel.MIN_BUFFERED ){
 					try {
 						FifoAudioInput.getList().wait();
 						System.out.print(".");
@@ -40,7 +40,7 @@ public class SoundPlayer extends Thread{
 	        try {
 	        	while (true) {
 	        		
-	        		byte tempBuffer[] = new byte[Model.BUFF_SIZE];
+	        		byte tempBuffer[] = new byte[MicrophoneModel.BUFF_SIZE];
 	        		
 	        		if( FifoAudioInput.getList().size() != 0 ){
 	        			
@@ -59,7 +59,7 @@ public class SoundPlayer extends Thread{
 	        			System.out.print("Buffering");
 	        	        synchronized (FifoAudioInput.getList()) {
 	        	        	
-	        				while( FifoAudioInput.getList().size() < Model.MIN_BUFFERED ){
+	        				while( FifoAudioInput.getList().size() < MicrophoneModel.MIN_BUFFERED ){
 	        					try {
 	        						FifoAudioInput.getList().wait();
 	        						System.out.print(".");

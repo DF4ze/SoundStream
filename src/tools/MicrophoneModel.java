@@ -4,7 +4,7 @@ import javax.sound.sampled.AudioFormat;
 
 import server.fifo.FifoMicro;
 
-public class Model {
+public class MicrophoneModel {
 	
 	private static boolean clientConnected = false;
 	public static final int CHUNK_SIZE = 1024;
@@ -14,7 +14,7 @@ public class Model {
 	public static final int PORT = 2015;
 	public static final int MIN_BUFFERED = 0;
 
-	public Model() {
+	public MicrophoneModel() {
 		// TODO Auto-generated constructor stub
 	}
 
@@ -23,7 +23,7 @@ public class Model {
 	}
 
 	public static void setClientConnected(boolean clientConnected) {
-		Model.clientConnected = clientConnected;
+		MicrophoneModel.clientConnected = clientConnected;
 		
 		if( !clientConnected )
 			FifoMicro.getList().clear();

@@ -6,7 +6,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 
 import server.MicroRetreiver;
-import tools.Model;
+import tools.MicrophoneModel;
 
 public class AccepterConnexions extends Thread{
 
@@ -19,17 +19,17 @@ public class AccepterConnexions extends Thread{
 	public void run(){
 		while( true ){
 			try {
-				System.out.println("Attente de connexion...");
+				System.out.println("Attente de connexion microphone...");
 				Socket socket = srvSocket.accept();
 				
-				if( !Model.isClientConnected() ){
+				if( !MicrophoneModel.isClientConnected() ){
 					ObjectOutputStream outObject = new ObjectOutputStream(socket.getOutputStream());
 					
 					
 					Thread t1 = new Thread(new AudioSender(outObject));
 					t1.start();
 					
-					Model.setClientConnected(true);
+					MicrophoneModel.setClientConnected(true);
 					
 					try {
 						Thread.sleep(100);
@@ -37,15 +37,15 @@ public class AccepterConnexions extends Thread{
 					
 					Thread t2 = new Thread(new MicroRetreiver()); // il faut faire un singleton...!
 					t2.start();
-					System.out.println("Client Connecte");
+					System.out.println("Client Connecte microphone");
 					
 				}else
-					System.out.println("Tentative de connexion d'un clients alors que le stream est occupe");
+					System.out.println("Tentative de connexion d'un clients alors que le stream microphone est occupe");
 
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-				Model.setClientConnected(false);
+				//e.printStackTrace();
+				System.out.println("Client deconnecte microphone");
+				MicrophoneModel.setClientConnected(false);
 			}
 		}
 	}

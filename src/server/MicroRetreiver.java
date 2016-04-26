@@ -7,7 +7,7 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.TargetDataLine;
 
 import server.fifo.FifoMicro;
-import tools.Model;
+import tools.MicrophoneModel;
 
 public class MicroRetreiver extends Thread{
 
@@ -21,25 +21,25 @@ public class MicroRetreiver extends Thread{
 //        AudioInputStream audioInputStream;
 //        SourceDataLine sourceDataLine;
         try {
-            microphone = AudioSystem.getTargetDataLine(Model.audioFormat);
+            microphone = AudioSystem.getTargetDataLine(MicrophoneModel.audioFormat);
 
-            DataLine.Info info = new DataLine.Info(TargetDataLine.class, Model.audioFormat);
+            DataLine.Info info = new DataLine.Info(TargetDataLine.class, MicrophoneModel.audioFormat);
             microphone = (TargetDataLine) AudioSystem.getLine(info);
-            microphone.open(Model.audioFormat);
+            microphone.open(MicrophoneModel.audioFormat);
 
             microphone.start();
 
             System.out.println("Debut de la diffusion");
             try {
-                while (Model.isClientConnected()) { 
+                while (MicrophoneModel.isClientConnected()) { 
                 	int totalByteRead = 0;
                     //byte[] data = new byte[microphone.getBufferSize() / 5];
-                	byte[] data = new byte[Model.CHUNK_SIZE];
+                	byte[] data = new byte[MicrophoneModel.CHUNK_SIZE];
                 	ByteArrayOutputStream out = new ByteArrayOutputStream();
                 	
                 	//long t0 = new Date().getTime();
-                	while( totalByteRead < Model.BUFF_SIZE ){ 
-	                    int numBytesRead = microphone.read(data, 0, Model.CHUNK_SIZE);
+                	while( totalByteRead < MicrophoneModel.BUFF_SIZE ){ 
+	                    int numBytesRead = microphone.read(data, 0, MicrophoneModel.CHUNK_SIZE);
 	                    totalByteRead += numBytesRead;
 	                    out.write(data, 0, numBytesRead);
                 	}
